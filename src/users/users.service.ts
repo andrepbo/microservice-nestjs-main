@@ -10,7 +10,7 @@ export class UsersService {
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>
     ) { }
 
-    async all(): Promise<User[]> {
+    async findAll(): Promise<User[]> {
         return this.userModel.find().exec();
     }
 

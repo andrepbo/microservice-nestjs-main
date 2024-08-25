@@ -8,8 +8,8 @@ export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @Get()
-    async all() {
-        return this.usersService.all();
+    async all(): Promise<User[]> {
+        return this.usersService.findAll();
     }
 
     @EventPattern('user_created')
