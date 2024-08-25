@@ -3,13 +3,3 @@
 ### GET all users
 GET http://localhost:3001/api/users
 Accept: application/json
-
-### POST create user
-POST http://localhost:3001/api/users
-Content-Type: application/json
-
-{
-  "username": "John Doe",
-  "email": "johndoe@email.com",
-  "password": ""
-}
