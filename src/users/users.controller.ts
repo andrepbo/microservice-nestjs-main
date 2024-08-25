@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { EventPattern } from '@nestjs/microservices';
+import { User } from './users.model';
 
 @Controller('users')
 export class UsersController {
@@ -10,12 +12,21 @@ export class UsersController {
         return this.usersService.all();
     }
 
-    @Post()
-    async create(
-        @Body('username') username: string,
-        @Body('email') email: string,
-        @Body('password') password: string,
-    ) {
-        return this.usersService.create({ username, email, password });
+    @EventPattern('user_created')
+    async handleUserCreated(user: User) {
+        console.log('user_created Event received: ', user);
+        await this.usersService.create(user);
+    }
+
+    @EventPattern('user_updated')
+    async handleUserUpdated(user: User) {
+        console.log('user_updated Event received: ', user);
+        await this.usersService.update(user.id, user);
+    }
+
+    @EventPattern('user_deleted')
+    async handleUserDeleted(id: number) {
+        console.log('user_deleted Event received: ', id);
+        await this.usersService.delete(id);
     }
 }
